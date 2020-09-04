@@ -3,7 +3,6 @@ package tech.zapt.sdkdemo;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.view.Menu;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -21,10 +20,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-//        getActionBar().setIcon(R.drawable.ic_stat_name);
-
-//        visitableId = UserInfo.getInstance(this).getVisitableId();
 
         webView = (WebView) findViewById(R.id.webView);
 
@@ -52,5 +47,4 @@ public class MainActivity extends AppCompatActivity {
         webView.getSettings().setDomStorageEnabled(true);
         webView.loadUrl(url);
     }
-
 }
