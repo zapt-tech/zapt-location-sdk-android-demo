@@ -7,6 +7,8 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import tech.zapt.sdk.location.ZaptSDK;
+import tech.zapt.sdk.location.ZaptSDKOptions;
+import tech.zapt.sdk.location.ZaptUserInfo;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,6 +28,25 @@ public class MainActivity extends AppCompatActivity {
         initializeZaptSDK();
         String url = zaptSDK.getMapLink();
         startWebView(url);
+
+
+        ZaptUserInfo userInfo = ZaptUserInfo.getInstance(this);
+        userInfo.setUserName("Pedro Nunes");
+        userInfo.getData().put("age", "30-40");
+        userInfo.getData().put("departament", "IT");
+        userInfo.getData().put("externalId", "93417");
+        userInfo.commit();
+
+        ZaptSDKOptions options = ZaptSDKOptions.getInstance();
+
+        //enable logging
+        options.setDebug(Boolean.TRUE);
+
+        //Interval in ms to send data to the cloud
+        options.setSyncInterval(60000);
+
+        //Number of retries if request fails
+        options.setHttpRetries(5);
     }
 
     public void initializeZaptSDK(){
