@@ -36,7 +36,7 @@ public class MapViewActivity extends Activity {
 		zaptSDK.verifyBluetooth(null, null);
 		zaptSDK.setWebViewClient(webView);
 		if (!zaptSDK.isInitialized()) {
-			zaptSDK.initialize("-md9bemdysyr-5-_hw9v");
+			zaptSDK.initialize("-ltvysf4acgzdxdhf81y");
 		}
 	}
 
