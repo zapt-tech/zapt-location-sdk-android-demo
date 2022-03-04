@@ -9,8 +9,12 @@ import android.util.Log;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 
+import java.util.Collection;
+
 import tech.zapt.sdk.location.ZaptSDK;
 import tech.zapt.sdk.location.ZaptSDKOptions;
+import tech.zapt.sdk.location.beacon.Beacon;
+import tech.zapt.sdk.location.beacon.BeaconListener;
 
 public class MapViewActivity extends Activity {
 
@@ -28,6 +32,7 @@ public class MapViewActivity extends Activity {
 		webView = (WebView) findViewById(R.id.webView);
 		initializeZaptSDK();
 		startWebView();
+		listenBeacon();
 	}
 
 	public void initializeZaptSDK() {
@@ -48,6 +53,18 @@ public class MapViewActivity extends Activity {
 		webView.getSettings().setDomStorageEnabled(true);
 		webView.loadUrl(url);
 	}
+
+	private void listenBeacon() {
+		zaptSDK.addBeaconListener(new BeaconListener() {
+			@Override
+			public void onScan(Collection<Beacon> collection) {
+				for (Beacon beacon : collection) {
+					Log.i("zapt.tech", "Beacon Found: " + beacon.getDistance());
+				}
+			}
+		});
+	}
+
 
 	@Override
 	public void onRequestPermissionsResult(int requestCode,
