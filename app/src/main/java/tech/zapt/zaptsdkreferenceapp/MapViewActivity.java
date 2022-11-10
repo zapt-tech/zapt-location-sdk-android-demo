@@ -40,18 +40,11 @@ public class MapViewActivity extends Activity {
 
 	public void initializeZaptSDK() {
 		zaptSDK = ZaptSDK.getInstance(this);
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-	 	builder.setTitle("This app needs background location access");
-	 	builder.setMessage("Please grant location access so this app can detect beacons in the background.");
-	 	AlertDialog.Builder fnLimitedBuilder = new AlertDialog.Builder(this);
-		fnLimitedBuilder.setTitle("Functionality limited");
-		fnLimitedBuilder.setMessage("Since background location access has not been granted, this app will not be able to discover beacons in the background.  Please go to Settings -> Applications -> Permissions and grant background location access to this app.");
-		zaptSDK.requestPermissionsBackground(this, builder, fnLimitedBuilder);
-//		requestPermissions();
+		zaptSDK.requestPermissions(this);
 		zaptSDK.verifyBluetooth(null, null);
 		zaptSDK.setWebViewClient(webView);
 		if (!zaptSDK.isInitialized()) {
-			zaptSDK.initialize("-ltvysf4acgzdxdhf81y");
+			zaptSDK.initialize("-	mljkeqchm-ea2sxrou8");
 		}
 	}
 
@@ -146,7 +139,17 @@ public class MapViewActivity extends Activity {
                                            String permissions[], int[] grantResults) {
 		switch (requestCode) {
 			case PERMISSION_REQUEST_FINE_LOCATION: {
+				if(grantResults == null || grantResults.length == 0) {
+					return;
+				}
 				if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+					AlertDialog.Builder builder = new AlertDialog.Builder(this);
+					builder.setTitle("This app needs background location access");
+					builder.setMessage("Please grant location access so this app can detect beacons in the background.");
+					AlertDialog.Builder fnLimitedBuilder = new AlertDialog.Builder(this);
+					fnLimitedBuilder.setTitle("Functionality limited");
+					fnLimitedBuilder.setMessage("Since background location access has not been granted, this app will not be able to discover beacons in the background.  Please go to Settings -> Applications -> Permissions and grant background location access to this app.");
+					zaptSDK.requestPermissionsBackground(this, builder, fnLimitedBuilder);
 					Log.d("zapt.tech", "fine location permission granted");
 				} else {
 					final AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -165,6 +168,9 @@ public class MapViewActivity extends Activity {
 				return;
 			}
 			case PERMISSION_REQUEST_BACKGROUND_LOCATION: {
+				if(grantResults == null || grantResults.length == 0) {
+					return;
+				}
 				if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 					Log.d("zapt.tech", "background location permission granted");
 				} else {
