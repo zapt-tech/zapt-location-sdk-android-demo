@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import java.util.Collection;
 
@@ -15,21 +17,21 @@ import tech.zapt.sdk.location.ZaptSDK;
 import tech.zapt.sdk.location.ZaptSDKOptions;
 import tech.zapt.sdk.location.beacon.Beacon;
 import tech.zapt.sdk.location.beacon.BeaconListener;
+import tech.zapt.sdk.webapp.ZaptWebView;
 
 public class MapViewActivity extends Activity {
 
 	private static final int PERMISSION_REQUEST_FINE_LOCATION = 1;
 	private static final int PERMISSION_REQUEST_BACKGROUND_LOCATION = 2;
 
-	private WebView webView;
-
+	private WebView zaptWebView;
 	private ZaptSDK zaptSDK;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.map);
-		webView = (WebView) findViewById(R.id.webView);
+		zaptWebView = (WebView) findViewById(R.id.webView);
 		initializeZaptSDK();
 		startWebView();
 		listenBeacon();
@@ -39,19 +41,17 @@ public class MapViewActivity extends Activity {
 		zaptSDK = ZaptSDK.getInstance(this);
 		zaptSDK.requestPermissions(this);
 		zaptSDK.verifyBluetooth(null, null);
-		zaptSDK.setWebViewClient(webView);
+		zaptSDK.setWebViewClient(zaptWebView);
 		if (!zaptSDK.isInitialized()) {
-			zaptSDK.initialize("-ltvysf4acgzdxdhf81y");
+			zaptSDK.initialize("-nhjtwnqh8cdkwzrjhqh");
 		}
 	}
 
 	public void startWebView() {
 		String url = zaptSDK.getMapLink();
 
-		webView.setWebChromeClient(new WebChromeClient());
-		webView.getSettings().setJavaScriptEnabled(true);
-		webView.getSettings().setDomStorageEnabled(true);
-		webView.loadUrl(url);
+		zaptWebView.setWebChromeClient(new WebChromeClient());
+		zaptWebView.loadUrl(url);
 	}
 
 	private void listenBeacon() {
