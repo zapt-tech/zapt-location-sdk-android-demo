@@ -49,8 +49,6 @@ public class MapViewActivity extends Activity {
 
 	public void startWebView() {
 		String url = zaptSDK.getMapLink();
-
-		zaptWebView.setWebChromeClient(new WebChromeClient());
 		zaptWebView.loadUrl(url);
 	}
 
