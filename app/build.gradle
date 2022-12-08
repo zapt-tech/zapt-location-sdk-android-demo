@@ -20,5 +20,5 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.0.0'
-	implementation 'tech.zapt:zapt-sdk:2.0.11'
+	implementation 'tech.zapt:zapt-sdk:2.0.12'
 }
