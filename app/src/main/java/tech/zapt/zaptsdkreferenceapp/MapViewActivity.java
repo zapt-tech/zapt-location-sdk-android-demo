@@ -6,18 +6,15 @@ import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
-import android.webkit.WebChromeClient;
 import android.webkit.WebView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 import tech.zapt.sdk.location.ZaptSDK;
-import tech.zapt.sdk.location.ZaptSDKOptions;
 import tech.zapt.sdk.location.beacon.Beacon;
 import tech.zapt.sdk.location.beacon.BeaconListener;
-import tech.zapt.sdk.webapp.ZaptWebView;
 
 public class MapViewActivity extends Activity {
 
@@ -41,19 +38,26 @@ public class MapViewActivity extends Activity {
 		zaptSDK = ZaptSDK.getInstance(this);
 		zaptSDK.requestPermissions(this);
 		zaptSDK.verifyBluetooth(null, null);
-		zaptSDK.setWebViewClient(zaptWebView);
 		if (!zaptSDK.isInitialized()) {
-			zaptSDK.initialize("-nhjtwnqh8cdkwzrjhqh");
+			zaptSDK.initialize("-ltvysf4acgzdxdhf81y");
 		}
 	}
 
 	public void startWebView() {
-		String url = zaptSDK.getMapLink();
+		// Add custom options in order to customize map behaviour
+		Map<String, String> opts = new HashMap<>();
+		opts.put("bottomNavigation", "false");
 
-		zaptWebView.setWebChromeClient(new WebChromeClient());
+		// Get map link with the opts
+		String url = zaptSDK.getMapLink(opts);
+
+		// init Webview with the URL
 		zaptWebView.loadUrl(url);
 	}
 
+	/**
+	 * Example of usage of listening beacons
+	 */
 	private void listenBeacon() {
 		zaptSDK.addBeaconListener(new BeaconListener() {
 			@Override
@@ -71,7 +75,9 @@ public class MapViewActivity extends Activity {
                                            String permissions[], int[] grantResults) {
 		switch (requestCode) {
 			case PERMISSION_REQUEST_FINE_LOCATION: {
-				if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+				if(grantResults == null || grantResults.length == 0) {
+					Log.d("zapt.tech", "No permission granted yet");
+				} else if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 					Log.d("zapt.tech", "fine location permission granted");
 				} else {
 					final AlertDialog.Builder builder = new AlertDialog.Builder(this);
