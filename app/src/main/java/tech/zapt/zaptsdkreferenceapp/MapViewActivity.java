@@ -35,9 +35,14 @@ public class MapViewActivity extends Activity {
 	}
 
 	public void initializeZaptSDK() {
-		zaptSDK = ZaptSDK.getInstance(this);
+		zaptSDK = ZaptSDK.getInstance(this.getApplicationContext());
 		zaptSDK.requestPermissions(this);
-		zaptSDK.verifyBluetooth(null, null);
+		if(!zaptSDK.isBluetoothEnabled()) {
+			// add your message asking user to enable or enable it yourself.
+			// zaptSDK has this method that adds a default alert message. But it's preferred to use yours.
+			zaptSDK.verifyBluetoothAndCreateAlert(null, null, this);
+
+		}
 		if (!zaptSDK.isInitialized()) {
 			zaptSDK.initialize("-ltvysf4acgzdxdhf81y");
 		}
