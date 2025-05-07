@@ -44,7 +44,7 @@ public class MapViewActivity extends Activity {
 
 		}
 		if (!zaptSDK.isInitialized()) {
-			zaptSDK.initialize("-ltvysf4acgzdxdhf81y");
+			zaptSDK.initialize("-ol4g6xderbaq83rmhve");
 		}
 	}
 
