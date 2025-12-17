@@ -15,20 +15,23 @@ import java.util.Map;
 import tech.zapt.sdk.location.ZaptSDK;
 import tech.zapt.sdk.location.beacon.Beacon;
 import tech.zapt.sdk.location.beacon.BeaconListener;
+import tech.zapt.sdk.webapp.ZaptWebView;
 
 public class MapViewActivity extends Activity {
 
 	private static final int PERMISSION_REQUEST_FINE_LOCATION = 1;
 	private static final int PERMISSION_REQUEST_BACKGROUND_LOCATION = 2;
+	public static final int PERMISSION_REQUEST_AUDIO_CAPTURE = 3;
 
-	private WebView zaptWebView;
+	private ZaptWebView zaptWebView;
 	private ZaptSDK zaptSDK;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.map);
-		zaptWebView = (WebView) findViewById(R.id.webView);
+		zaptWebView = (ZaptWebView) findViewById(R.id.webView);
+		zaptWebView.setHostActivity(this);
 		initializeZaptSDK();
 		startWebView();
 		listenBeacon();
@@ -52,6 +55,7 @@ public class MapViewActivity extends Activity {
 		// Add custom options in order to customize map behaviour
 		Map<String, String> opts = new HashMap<>();
 		opts.put("bottomNavigation", "false");
+		opts.put("enableMicSearch", "true");
 
 		// Get map link with the opts
 		String url = zaptSDK.getMapLink(opts);
@@ -118,6 +122,8 @@ public class MapViewActivity extends Activity {
 					builder.show();
 				}
 				return;
+			} case PERMISSION_REQUEST_AUDIO_CAPTURE: {
+				zaptWebView.onRequestPermissionResult(requestCode, permissions, grantResults);
 			}
 		}
 	}
