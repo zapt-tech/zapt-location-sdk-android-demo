@@ -122,8 +122,6 @@ public class MapViewActivity extends Activity {
 					builder.show();
 				}
 				return;
-			} case PERMISSION_REQUEST_AUDIO_CAPTURE: {
-				zaptWebView.onRequestPermissionResult(requestCode, permissions, grantResults);
 			}
 		}
 	}
