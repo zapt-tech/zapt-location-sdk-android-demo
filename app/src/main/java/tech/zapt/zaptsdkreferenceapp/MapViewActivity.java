@@ -40,11 +40,11 @@ public class MapViewActivity extends Activity {
 	public void initializeZaptSDK() {
 		zaptSDK = ZaptSDK.getInstance(this.getApplicationContext());
 		zaptSDK.requestPermissions(this);
+
 		if(!zaptSDK.isBluetoothEnabled()) {
 			// add your message asking user to enable or enable it yourself.
 			// zaptSDK has this method that adds a default alert message. But it's preferred to use yours.
 			zaptSDK.verifyBluetoothAndCreateAlert(null, null, this);
-
 		}
 		if (!zaptSDK.isInitialized()) {
 			zaptSDK.initialize("-ltvysf4acgzdxdhf81y");
@@ -88,6 +88,13 @@ public class MapViewActivity extends Activity {
 					Log.d("zapt.tech", "No permission granted yet");
 				} else if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 					Log.d("zapt.tech", "fine location permission granted");
+					AlertDialog.Builder builder = new AlertDialog.Builder(this);
+					builder.setTitle("This app needs background location access");
+					builder.setMessage("Please grant location access so this app can detect beacons in the background.");
+					AlertDialog.Builder fnLimitedBuilder = new AlertDialog.Builder(this);
+					fnLimitedBuilder.setTitle("Functionality limited");
+					fnLimitedBuilder.setMessage("Since background location access has not been granted, this app will not be able to discover beacons in the background.  Please go to Settings -> Applications -> Permissions and grant background location access to this app.");
+					zaptSDK.requestPermissionsBackground(this, builder, fnLimitedBuilder);
 				} else {
 					final AlertDialog.Builder builder = new AlertDialog.Builder(this);
 					builder.setTitle("Functionality limited");
